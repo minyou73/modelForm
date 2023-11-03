@@ -46,6 +46,7 @@ def create(request):
             article = form.save()
             # 14. index페이지로 redirect
             return redirect('articles:index')
+            
        
     # 1. GET 요청
     else:          
@@ -59,7 +60,14 @@ def create(request):
     }
     
     # 4. create.html을 렌더링
-    # 9. 
+    # 9. create.html을 렌더링
     return render(request, 'create.html', context)
             
+
+
+def delete(request, id):
+    article = Article.objects.get(id=id)
+    article.delete()
+
+    return redirect('articles:index')
     
