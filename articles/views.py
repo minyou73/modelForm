@@ -61,7 +61,7 @@ def create(request):
     
     # 4. create.html을 렌더링
     # 9. create.html을 렌더링
-    return render(request, 'create.html', context)
+    return render(request, 'form.html', context)
             
 
 
@@ -70,4 +70,22 @@ def delete(request, id):
     article.delete()
 
     return redirect('articles:index')
+
+
+def update(request, id):
+    article = Article.objects.get(id=id)
+    
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect('articles:index')
+    else:
+        form = ArticleForm(instance=article)
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'form.html', context)
     
